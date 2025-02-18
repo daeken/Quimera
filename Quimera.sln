@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuimeraCore", "QuimeraCore\QuimeraCore.csproj", "{FC2C7206-1B5C-416A-848B-490C1363F931}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronVisor", "IronVisor\IronVisor.csproj", "{CEE41107-EEF8-4C58-8E08-603577DF59A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli", "Cli\Cli.csproj", "{E3AD8FDE-DCBB-40AA-932C-73F93E11E42C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC2C7206-1B5C-416A-848B-490C1363F931}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC2C7206-1B5C-416A-848B-490C1363F931}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC2C7206-1B5C-416A-848B-490C1363F931}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC2C7206-1B5C-416A-848B-490C1363F931}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEE41107-EEF8-4C58-8E08-603577DF59A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEE41107-EEF8-4C58-8E08-603577DF59A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEE41107-EEF8-4C58-8E08-603577DF59A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEE41107-EEF8-4C58-8E08-603577DF59A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3AD8FDE-DCBB-40AA-932C-73F93E11E42C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3AD8FDE-DCBB-40AA-932C-73F93E11E42C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3AD8FDE-DCBB-40AA-932C-73F93E11E42C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3AD8FDE-DCBB-40AA-932C-73F93E11E42C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
