@@ -1,21 +1,55 @@
 using System.IO.Compression;
 using System.Text;
+using Claunia.PropertyList;
+using DoubleSharp.Pretty;
 
 namespace QuimeraCore;
 
 public class IpswLoader {
 	readonly ZipArchive Ipsw;
-	public IpswLoader(string path) => Ipsw = new ZipArchive(File.OpenRead(path));
+	readonly string DeviceTreePath, KernelCachePath;
+	public IpswLoader(string path) {
+		Ipsw = new ZipArchive(File.OpenRead(path));
+		var manifest = ReadEntry("BuildManifest.plist");
+		var mplist = (NSDictionary) PropertyListParser.Parse(manifest);
+		DeviceTreePath =
+			((NSString)
+				(((NSDictionary)
+					((NSDictionary) ((NSDictionary) ((NSDictionary) ((NSArray) mplist[
+						"BuildIdentities"])[0])["Manifest"])["DeviceTree"])["Info"])["Path"]))
+			.Content;
+		KernelCachePath =
+			((NSString)
+				(((NSDictionary)
+					((NSDictionary) ((NSDictionary) ((NSDictionary) ((NSArray) mplist[
+						"BuildIdentities"])[0])["Manifest"])["KernelCache"])["Info"])["Path"]))
+			.Content;
+	}
 
-	ZipArchiveEntry FindFileStartingWith(string fn) =>
-		Ipsw.Entries.FirstOrDefault(entry => entry.FullName.StartsWith(fn))
-		?? throw new NotSupportedException();
+	Span<byte> ReadEntry(string fn) {
+		var entry = Ipsw.GetEntry(fn) ?? throw new FileNotFoundException($"File not found: {fn}");
+		Span<byte> buf = new byte[entry.Length];
+		entry.Open().ReadExactly(buf);
+		return buf;
+	}
+
+	public byte[] DeviceTree {
+		get {
+			var buf = ReadEntry(DeviceTreePath);
+			var pos = 0;
+			if(buf[pos++] != 0x30) throw new NotSupportedException(); // Should be sequence + constructed
+			ReadLength(ref pos, buf);
+			if(ReadString(ref pos, buf) != "IM4P") throw new NotSupportedException();
+			if(ReadString(ref pos, buf) != "dtre") throw new NotSupportedException();
+			var desc = ReadString(ref pos, buf);
+			var contents = ReadOctetString(ref pos, buf);
+			return Lzfse.Decompress(contents).ToArray();
+		}
+	}
 
 	public byte[] KernelCache {
 		get {
-			var entry = FindFileStartingWith("kernelcache");
-			Span<byte> buf = new byte[entry.Length];
-			entry.Open().ReadExactly(buf);
+			var buf = ReadEntry(KernelCachePath);
 			var pos = 0;
 			if(buf[pos++] != 0x30) throw new NotSupportedException(); // Should be sequence + constructed
 			ReadLength(ref pos, buf);

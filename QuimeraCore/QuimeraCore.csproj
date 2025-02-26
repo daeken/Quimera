@@ -12,4 +12,9 @@
       <ProjectReference Include="..\IronVisor\IronVisor.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="DoubleSharp" Version="0.0.3" />
+      <PackageReference Include="plist-cil" Version="2.2.0" />
+    </ItemGroup>
+
 </Project>
